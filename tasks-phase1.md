@@ -55,17 +55,21 @@ IMPORTANT ❗ ❗ ❗ Please remember to destroy all the resources after each wo
    
    ***place the command you used for setting up the tunnel, the port and the screenshot of YARN UI here***
 
-   ![img.png](doc/figures/yarn_ui.png)
+   ![img.png](doc/figures/hadoop.png)
+   ![img.png](doc/figures/hadoop_running.png)
    
 9. Draw an architecture diagram (e.g. in draw.io) that includes:
     1. VPC topology with service assignment to subnets
 
+    // TODO
 
     2. Description of the components of service accounts
 
-    704118541832-compute@developer.gserviceaccount.com:
+    704118541832-compute@developer.gserviceaccount.com (Service Account Token Creator):
+    It is used to impersonate service accounts (create OAuth2 access tokens, sign blobs or JWTs, etc). 
 
     tbd-2024l-276747-data@tbd-2024l-276747.iam.gserviceaccount.com:
+    Provides the permissions necessary for viewing the resources required to manage Dataproc, including machine types, networks, projects, and zones. It also provides the permissions necessary to list and get Cloud Composer environments and operations. Provides read-only access to objects in all project buckets. 
 
     tbd-2024l-276747-lab@tbd-2024l-276747.iam.gserviceaccount.com: 
 
@@ -74,9 +78,13 @@ IMPORTANT ❗ ❗ ❗ Please remember to destroy all the resources after each wo
 
     3. List of buckets for disposal
 
+    ![img.png](doc/figures/buckets.png)
+
 
     4. Description of network communication (ports, why it is necessary to specify the host for the driver) of Apache Spark running from Vertex AI Workbech
   
+    // TODO
+
     ***place your diagram here***
 
 10. Create a new PR and add costs by entering the expected consumption into Infracost
