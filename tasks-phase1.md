@@ -4,43 +4,82 @@ IMPORTANT ❗ ❗ ❗ Please remember to destroy all the resources after each wo
 
 1. Authors:
 
-   ***enter your group nr***
+   ***Z10***
 
-   ***link to forked repo***
+   ***https://github.com/pmalesa/tbd-workshop-1***
    
 2. Follow all steps in README.md.
 
 3. Select your project and set budget alerts on 5%, 25%, 50%, 80% of 50$ (in cloud console -> billing -> budget & alerts -> create buget; unclick discounts and promotions&others while creating budget).
 
-  ![img.png](doc/figures/discounts.png)
-
 5. From avaialble Github Actions select and run destroy on main branch.
+
+    ![img.png](doc/figures/destroy.png)
    
-7. Create new git branch and:
+6. Create new git branch and:
     1. Modify tasks-phase1.md file.
     
     2. Create PR from this branch to **YOUR** master and merge it to make new release. 
     
-    ***place the screenshot from GA after succesfull application of release***
+    ![img.png](doc/figures/release_pr.png)
 
+7. Analyze terraform code. Play with terraform plan, terraform graph to investigate different modules.
 
-8. Analyze terraform code. Play with terraform plan, terraform graph to investigate different modules.
+    Selected module: Dataproc
 
-    ***describe one selected module and put the output of terraform graph for this module here***
+    Dataproc is a fully managed and highly scalable service for running Apache Hadoop, Apache Spark, Apache Flink, Presto and more than 30 open source tools and frameworks. Dataproc can be used to modernize data lakes, ETL and secure data science, at scale, integrated with Google Cloud.
+
+    Output for cluster_module.dataproc:
+
+    ```
+    subgraph "cluster_module.dataproc" {
+    label = "module.dataproc"
+    fontname = "sans-serif"
+    "module.dataproc.google_dataproc_cluster.tbd-dataproc-cluster" [label="google_dataproc_cluster.tbd-dataproc-cluster"];
+    "module.dataproc.google_project_service.dataproc" [label="google_project_service.dataproc"];
+    }
+
+    "module.composer.module.composer.google_composer_environment.composer_env" -> "module.dataproc.google_dataproc_cluster.tbd-dataproc-cluster";
+    "module.dataproc.google_dataproc_cluster.tbd-dataproc-cluster" -> "module.dataproc.google_project_service.dataproc";
+    "module.dataproc.google_dataproc_cluster.tbd-dataproc-cluster" -> "module.dataproc.google_project_service.dataproc";
+    "module.dataproc.google_project_service.dataproc" -> "module.vpc.google_compute_firewall.default-internal-allow-all";
+    "module.dataproc.google_project_service.dataproc" -> "module.vpc.google_compute_firewall.fw-allow-ingress-from-iap";
+    "module.dataproc.google_project_service.dataproc" -> "module.vpc.module.cloud-router.google_compute_router_nat.nats";
+    "module.dataproc.google_project_service.dataproc" -> "module.vpc.module.vpc.module.firewall_rules.google_compute_firewall.rules";
+    "module.dataproc.google_project_service.dataproc" -> "module.vpc.module.vpc.module.firewall_rules.google_compute_firewall.rules_ingress_egress";
+    "module.dataproc.google_project_service.dataproc" -> "module.vpc.module.vpc.module.routes.google_compute_route.route";
+    "module.dataproc.google_project_service.dataproc" -> "module.vpc.module.vpc.module.vpc.google_compute_shared_vpc_host_project.shared_vpc_host";
+    ```
    
-9. Reach YARN UI
+8. Reach YARN UI
    
    ***place the command you used for setting up the tunnel, the port and the screenshot of YARN UI here***
+
+   ![img.png](doc/figures/yarn_ui.png)
    
-10. Draw an architecture diagram (e.g. in draw.io) that includes:
+9. Draw an architecture diagram (e.g. in draw.io) that includes:
     1. VPC topology with service assignment to subnets
+
+
     2. Description of the components of service accounts
+
+    704118541832-compute@developer.gserviceaccount.com:
+
+    tbd-2024l-276747-data@tbd-2024l-276747.iam.gserviceaccount.com:
+
+    tbd-2024l-276747-lab@tbd-2024l-276747.iam.gserviceaccount.com: 
+
+
+    ![img.png](doc/figures/service_accounts.png)
+
     3. List of buckets for disposal
+
+
     4. Description of network communication (ports, why it is necessary to specify the host for the driver) of Apache Spark running from Vertex AI Workbech
   
     ***place your diagram here***
 
-11. Create a new PR and add costs by entering the expected consumption into Infracost
+10. Create a new PR and add costs by entering the expected consumption into Infracost
 For all the resources of type: `google_artifact_registry`, `google_storage_bucket`, `google_service_networking_connection`
 create a sample usage profiles and add it to the Infracost task in CI/CD pipeline. Usage file [example](https://github.com/infracost/infracost/blob/master/infracost-usage-example.yml) 
 
