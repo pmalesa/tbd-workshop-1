@@ -25,7 +25,7 @@ IMPORTANT ❗ ❗ ❗ Please remember to destroy all the resources after each wo
 
 7. Analyze terraform code. Play with terraform plan, terraform graph to investigate different modules.
 
-    Selected module: Dataproc
+    Selected module: **Dataproc**
 
     Dataproc is a fully managed and highly scalable service for running Apache Hadoop, Apache Spark, Apache Flink, Presto and more than 30 open source tools and frameworks. Dataproc can be used to modernize data lakes, ETL and secure data science, at scale, integrated with Google Cloud.
 
@@ -55,23 +55,32 @@ IMPORTANT ❗ ❗ ❗ Please remember to destroy all the resources after each wo
    
    ***place the command you used for setting up the tunnel, the port and the screenshot of YARN UI here***
 
+   Command:
+   ```
+   gcloud compute ssh tbd-cluster-m --project=tbd-2024l-276747 --zone=europe-west1-d --tunnel-through-iap -- -L 8088:localhost:8088
+   ```
+
    ![img.png](doc/figures/hadoop.png)
    ![img.png](doc/figures/hadoop_running.png)
    
 9. Draw an architecture diagram (e.g. in draw.io) that includes:
     1. VPC topology with service assignment to subnets
 
-    // TODO
+    ![img.png](doc/figures/vpc_diagram.png)
 
     2. Description of the components of service accounts
 
     704118541832-compute@developer.gserviceaccount.com (Service Account Token Creator):
+
     It is used to impersonate service accounts (create OAuth2 access tokens, sign blobs or JWTs, etc). 
 
-    tbd-2024l-276747-data@tbd-2024l-276747.iam.gserviceaccount.com:
+    tbd-2024l-276747-data@tbd-2024l-276747.iam.gserviceaccount.com (Dataproc editor, Environment and Storage Object Viewer, Service Account User):
+
     Provides the permissions necessary for viewing the resources required to manage Dataproc, including machine types, networks, projects, and zones. It also provides the permissions necessary to list and get Cloud Composer environments and operations. Provides read-only access to objects in all project buckets. 
 
-    tbd-2024l-276747-lab@tbd-2024l-276747.iam.gserviceaccount.com: 
+    tbd-2024l-276747-lab@tbd-2024l-276747.iam.gserviceaccount.com (Owner): 
+
+    It is a IaC service account which is responsible for performing cloud infrastructure provisioning and management tasks with terraform. With the Owner role assigned, it has full access to all resources.
 
 
     ![img.png](doc/figures/service_accounts.png)
@@ -80,12 +89,26 @@ IMPORTANT ❗ ❗ ❗ Please remember to destroy all the resources after each wo
 
     ![img.png](doc/figures/buckets.png)
 
+    tbd-2024l-276747-state - It stores information about infrastructure and its state. It contains terraform files.
+
+    tbd-2024l-276747-data - It stores the actual data produced by applications (raw data, application outputs, logs).
+
+    tbd-2024l-276747-conf - It stores configuration files and scripts.
+
+    tbd-2024l-276747-code - It stores source code, execuable code and libraries for Apache Spark.
+
 
     4. Description of network communication (ports, why it is necessary to specify the host for the driver) of Apache Spark running from Vertex AI Workbech
-  
-    // TODO
 
-    ***place your diagram here***
+    ![img.png](doc/figures/network_communication.png)
+
+    The Driver delegates job scheduling and resource management to the Master. The Master coordinates the distribution of tasks to Workers. Direct communication between the Driver and Workers ensures that the tasks are carried out efficiently and that the Driver can gather the necessary data for further processing. Communication between Workers allow efficient data sharing across nodes during distributed processing.
+
+    **spark_driver_port = 30000**
+
+    **spark_blockmgr_port = 30001**
+
+    Host must be specified for the driver, because it is needed to coordinate tasks within its worker nodes in the cluster. The worker nodes have to communicate back to the driver node, which returns the results.
 
 10. Create a new PR and add costs by entering the expected consumption into Infracost
 For all the resources of type: `google_artifact_registry`, `google_storage_bucket`, `google_service_networking_connection`
@@ -123,11 +146,12 @@ create a sample usage profiles and add it to the Infracost task in CI/CD pipelin
    
    ![img.png](doc/figures/infracost.png)
 
-11. Create a BigQuery dataset and an external table using SQL
+11.  Create a BigQuery dataset and an external table using SQL
     
     ![img.png](doc/figures/big_query.png)
    
     ***why does ORC not require a table schema?***
+
     ORC does not require a table schema, since the schema information is contained in the file. ORC files are self-describing, so if you read the file programmatically, the reader provides the schema.
 
   
@@ -148,9 +172,24 @@ create a sample usage profiles and add it to the Infracost task in CI/CD pipelin
 
     1. Add support for arbitrary machine types and worker nodes for a Dataproc cluster and JupyterLab instance
 
-    ***place the link to the modified file and inserted terraform code***
+
+    https://github.com/pmalesa/tbd-workshop-1/blob/documentation/modules/dataproc/main.tf
+    ![img.png](doc/figures/dataproc_main_tf.png)
+
+    https://github.com/pmalesa/tbd-workshop-1/blob/documentation/modules/dataproc/variables.tf
+    ![img.png](doc/figures/dataproc_variable_tf.png)
+
+    https://github.com/pmalesa/tbd-workshop-1/blob/documentation/modules/vertex-ai-workbench/main.tf
+    ![img.png](doc/figures/vertex_ai_main_tf.png)
+
+    https://github.com/pmalesa/tbd-workshop-1/blob/documentation/modules/vertex-ai-workbench/variables.tf
+    ![img.png](doc/figures/vertex_ai_variables_tf.png)
+
+    https://github.com/pmalesa/tbd-workshop-1/blob/documentation/main.tf
+    ![img.png](doc/figures/main_tf.png)
+
     
-    3. Add support for preemptible/spot instances in a Dataproc cluster
+    2. Add support for preemptible/spot instances in a Dataproc cluster
 
     ***place the link to the modified file and inserted terraform code***
     
@@ -161,4 +200,4 @@ create a sample usage profiles and add it to the Infracost task in CI/CD pipelin
     4. (Optional) Get access to Apache Spark WebUI
 
     ***place the link to the modified file and inserted terraform code***
-    
+
