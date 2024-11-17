@@ -19,6 +19,12 @@ variable "subnet" {
   description = "VPC subnet to use for notebooks"
 }
 
+variable "jupyter_machine_type" {
+  type        = string
+  default     = "e2-standard-2"
+  description = "Machine type for JupyterLab"
+}
+
 variable "ai_notebook_instance_owner" {
   type        = string
   description = "Vertex AI workbench owner"
