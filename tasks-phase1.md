@@ -12,18 +12,20 @@ IMPORTANT ❗ ❗ ❗ Please remember to destroy all the resources after each wo
 
 3. Select your project and set budget alerts on 5%, 25%, 50%, 80% of 50$ (in cloud console -> billing -> budget & alerts -> create buget; unclick discounts and promotions&others while creating budget).
 
-5. From avaialble Github Actions select and run destroy on main branch.
+    ![img.png](doc/figures/billing.png)
 
-    ![img.png](doc/figures/destroy.png)
+4. From avaialble Github Actions select and run destroy on main branch.
+
+    ![img.png](doc/figures/destroy_mine.png)
    
-6. Create new git branch and:
+5. Create new git branch and:
     1. Modify tasks-phase1.md file.
     
     2. Create PR from this branch to **YOUR** master and merge it to make new release. 
     
     ![img.png](doc/figures/release_pr.png)
 
-7. Analyze terraform code. Play with terraform plan, terraform graph to investigate different modules.
+6. Analyze terraform code. Play with terraform plan, terraform graph to investigate different modules.
 
     Selected module: **Dataproc**
 
@@ -51,7 +53,7 @@ IMPORTANT ❗ ❗ ❗ Please remember to destroy all the resources after each wo
     "module.dataproc.google_project_service.dataproc" -> "module.vpc.module.vpc.module.vpc.google_compute_shared_vpc_host_project.shared_vpc_host";
     ```
    
-8. Reach YARN UI
+7. Reach YARN UI
    
    ***place the command you used for setting up the tunnel, the port and the screenshot of YARN UI here***
 
@@ -63,7 +65,7 @@ IMPORTANT ❗ ❗ ❗ Please remember to destroy all the resources after each wo
    ![img.png](doc/figures/hadoop.png)
    ![img.png](doc/figures/hadoop_running.png)
    
-9. Draw an architecture diagram (e.g. in draw.io) that includes:
+8. Draw an architecture diagram (e.g. in draw.io) that includes:
     1. VPC topology with service assignment to subnets
 
     ![img.png](doc/figures/vpc_diagram.png)
@@ -146,26 +148,28 @@ create a sample usage profiles and add it to the Infracost task in CI/CD pipelin
    
    ![img.png](doc/figures/infracost.png)
 
+
 11.  Create a BigQuery dataset and an external table using SQL
-    
-    ![img.png](doc/figures/big_query.png)
-   
-    ***why does ORC not require a table schema?***
+       
+***Why does ORC not require a table schema?***
 
-    ORC does not require a table schema, since the schema information is contained in the file. ORC files are self-describing, so if you read the file programmatically, the reader provides the schema.
 
+ORC does not require a table schema, since the schema information is contained in the file. ORC files are self-describing, so if you read the file programmatically, the reader provides the schema.
+
+
+![img.png](doc/figures/big_query.png)
   
-12. Start an interactive session from Vertex AI workbench:
+12.  Start an interactive session from Vertex AI workbench:
 
-    ![img.png](doc/figures/jupyter_1.png)
+![img.png](doc/figures/jupyter_1.png)
    
-13. Find and correct the error in spark-job.py
+13.  Find and correct the error in spark-job.py
 
-    ***describe the cause and how to find the error***
+***describe the cause and how to find the error***
 
-    The error was due to the incorrect data bucket path located in spark-job.py file. The error was found by looking into the logs of dataproc_job.
+The error was due to the incorrect data bucket path located in spark-job.py file. The error was found by looking into the logs of dataproc_job.
 
-    ![img.png](doc/figures/error_dag.png)
+![img.png](doc/figures/error_dag.png)
 
 
 14. Additional tasks using Terraform:
@@ -202,5 +206,6 @@ create a sample usage profiles and add it to the Infracost task in CI/CD pipelin
 
     4. (Optional) Get access to Apache Spark WebUI
 
-    ***place the link to the modified file and inserted terraform code***
+    https://github.com/pmalesa/tbd-workshop-1/blob/master/modules/dataproc/main.tf
+    ![img.png](doc/figures/dataproc_http_config.png)
 
