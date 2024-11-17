@@ -195,13 +195,10 @@ create a sample usage profiles and add it to the Infracost task in CI/CD pipelin
     ![img.png](doc/figures/dataproc_main_tf_spot.png)
     
     3. Perform additional hardening of Jupyterlab environment, i.e. disable sudo access and enable secure boot
-    
-    ***place the link to the modified file and inserted terraform code***
 
+    https://github.com/pmalesa/tbd-workshop-1/blob/master/modules/vertex-ai-workbench/main.tf
+    ![img.png](doc/figures/vertex_ai_main_tf_2.png)
 
-
-
-    
 
     4. (Optional) Get access to Apache Spark WebUI
 
