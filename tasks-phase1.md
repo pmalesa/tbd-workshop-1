@@ -125,18 +125,24 @@ create a sample usage profiles and add it to the Infracost task in CI/CD pipelin
 
 11. Create a BigQuery dataset and an external table using SQL
     
-    ***place the code and output here***
+    ![img.png](doc/figures/big_query.png)
    
     ***why does ORC not require a table schema?***
+    ORC does not require a table schema, since the schema information is contained in the file. ORC files are self-describing, so if you read the file programmatically, the reader provides the schema.
 
   
 12. Start an interactive session from Vertex AI workbench:
 
-    ***place the screenshot of notebook here***
+    ![img.png](doc/figures/jupyter_1.png)
    
 13. Find and correct the error in spark-job.py
 
     ***describe the cause and how to find the error***
+
+    The error was due to the incorrect data bucket path located in spark-job.py file. The error was found by looking into the logs of dataproc_job.
+
+    ![img.png](doc/figures/error_dag.png)
+
 
 14. Additional tasks using Terraform:
 
@@ -155,3 +161,4 @@ create a sample usage profiles and add it to the Infracost task in CI/CD pipelin
     4. (Optional) Get access to Apache Spark WebUI
 
     ***place the link to the modified file and inserted terraform code***
+    
