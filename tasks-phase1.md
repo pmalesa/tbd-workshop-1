@@ -172,9 +172,24 @@ create a sample usage profiles and add it to the Infracost task in CI/CD pipelin
 
     1. Add support for arbitrary machine types and worker nodes for a Dataproc cluster and JupyterLab instance
 
-    ***place the link to the modified file and inserted terraform code***
+
+    https://github.com/pmalesa/tbd-workshop-1/blob/documentation/modules/dataproc/main.tf
+    ![img.png](doc/figures/dataproc_main_tf.png)
+
+    https://github.com/pmalesa/tbd-workshop-1/blob/documentation/modules/dataproc/variables.tf
+    ![img.png](doc/figures/dataproc_variable_tf.png)
+
+    https://github.com/pmalesa/tbd-workshop-1/blob/documentation/modules/vertex-ai-workbench/main.tf
+    ![img.png](doc/figures/vertex_ai_main_tf.png)
+
+    https://github.com/pmalesa/tbd-workshop-1/blob/documentation/modules/vertex-ai-workbench/variables.tf
+    ![img.png](doc/figures/vertex_ai_variables_tf.png)
+
+    https://github.com/pmalesa/tbd-workshop-1/blob/documentation/main.tf
+    ![img.png](doc/figures/main_tf.png)
+
     
-    3. Add support for preemptible/spot instances in a Dataproc cluster
+    2. Add support for preemptible/spot instances in a Dataproc cluster
 
     ***place the link to the modified file and inserted terraform code***
     
