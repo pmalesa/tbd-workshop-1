@@ -18,9 +18,9 @@ Worth to read:
 
 2. Authors:
 
-   ***Enter your group nr***
+    Group: z10
 
-   ***Link to forked repo***
+   [***Link to forked repo***](https://github.com/pmalesa/tbd-workshop-1)
 
 3. Sync your repo with https://github.com/bdg-tbd/tbd-workshop-1.
 
@@ -31,7 +31,7 @@ Worth to read:
     b) upload [tpc-di-setup.ipynb](https://github.com/bdg-tbd/tbd-workshop-1/blob/v1.0.36/notebooks/tpc-di-setup.ipynb) to 
 the running instance of your Vertex AI Workbench
 
-5. In `tpc-di-setup.ipynb` modify cell under section ***Clone tbd-tpc-di repo***:
+1. In `tpc-di-setup.ipynb` modify cell under section ***Clone tbd-tpc-di repo***:
 
    a)first, fork https://github.com/mwiewior/tbd-tpc-di.git to your github organization.
 
