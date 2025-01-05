@@ -20,8 +20,8 @@ Worth to read:
 
     Group: z10
 
-
-   [***Link to forked repo***](https://github.com/pmalesa/tbd-workshop-1)
+   [***https://github.com/pmalesa/tbd-workshop-1***](https://github.com/pmalesa/tbd-workshop-1)
+   [***https://github.com/pmalesa/tbd-tpc-di***](https://github.com/pmalesa/tbd-tpc-di)
 
 3. Sync your repo with https://github.com/bdg-tbd/tbd-workshop-1.
 
@@ -78,19 +78,128 @@ the running instance of your Vertex AI Workbench
 
 7. Explore files created by generator and describe them, including format, content, total size.
 
-   ***Files desccription***
+   Do każdego z 16. wygenerowanych plików zostały wygenerowane pliki tekstowe jak również odpowiadające im pliki audit w formacie csv. Wyjątkiem jest plik FINWIRE, który został podzielony na wiele pomniejszych plików wraz z odpowiadającym im plikami audit csv.
+   Wszystkie pliki zostały wygenerowane i umieszczone w trzech podkatalogach Batch1/, Batch2/ oraz Batch3/.
+
+   StatusType:
+      - format: txt
+      - rozmiar: 3.6 KiB
+      - content: Plik zawierający typy statusów wraz z opisami.
+
+   TaxRate:
+      - format: txt
+      - size: 16.7 KiB
+      - content: Plik zawierający informacje dotyczące podatków w różnych regionach geograficznych USA oraz Kanady.
+
+   Date:
+      - format: txt
+      - size: 3.3 MiB 
+      - content: Plik zawierający dane kalendarzowe lat 1950-2020.
+
+   Time:
+      - format: txt
+      - size: 4.6 MiB
+      - content: Plik zawierajacy dane godzinowe (dla każdej sekundy).
+
+   BatchDate:
+      - format: txt
+      - size: 88 B
+      - content: Plik zawierający pojedynczą datę.
+ 
+   HR:
+      - format: txt
+      - size: 39.6 MiB
+      - content: Plik zawierający dane pracownicze broker'ów (imię, nazwisko, biuro, numer telefonu, etc.).
+
+   CustomerMgmt:
+      - format: xml
+      - size: 298.1 MiB
+      - content: Plik zawierajacy dane dotyczące czynności związanych z kontami klientów.
+
+   Customer:
+      - format: txt
+      - size: 205.3 KiB 
+      - content: Plik zawierający ogólne dane dotyczące klientów.
+
+   Account:
+      - format: txt
+      - size: 149.6 KiB 
+      - content: Plik zawierający dane dotyczące kont klientów.
+
+   Prospect:
+      - format: csv
+      - size: 300.2 MiB 
+      - content: Plik zawierający prawdopodobnie dane umów.
+
+   Industry:
+      - format: txt 
+      - size: 2.7 KiB
+      - content: Plik zawierający nazwy rodzajów przemysłu.
+ 
+   FINWIRE:
+      - format: Binarny
+      - size: 1.0 GiB
+      - content: Pliki zawierające archiwalne dane w różnej formie. 
+
+   DailyMarket:
+      - format: txt
+      - size: 3.0 GiB 
+      - content: Plik zawierający dane archiwalne dotyczące akcji na giełdzie.
+
+   WatchHistory:
+      - format: txt
+      - size: 1.3 GiB 
+      - content: Plik zawierający prawdopodobnie metadane obserwowanych akcji.
+
+   TradeSource (Trade i TradeHistory):
+      - format: txt
+      - size: 3.6 GiB 
+      - content: Pliki zawierające dane dotyczące transakcji.
+ 
+   TradeType:
+      - format: txt
+      - size: 99 B
+      - content: Plik zawierający dane dotyczące rodzajów operacji na giełdzie.
 
 8. Analyze tpcdi.py. What happened in the loading stage?
 
-   ***Your answer***
+   W trakcie loading stage zostały utworzone tabele na podstawie zawartości plików txt, csv lub xml, które zostały wcześniej wygenerowane w chmurze. Dla każdego pliku dodatkowo został utworzony data frame, opisujący zawartość danego pliku.
 
-9. Using SparkSQL answer: how many table were created in each layer?
+   ![img.png](doc/figures/load_staging.png)
 
-   ***SparkSQL command and output***
+9. Using SparkSQL answer: how many tables were created in each layer?
+
+   ![img.png](doc/figures/spark_sql.png)
 
 10. Add some 3 more [dbt tests](https://docs.getdbt.com/docs/build/tests) and explain what you are testing. ***Add new tests to your repository.***
 
-   ***Code and description of your tests***
+   **Test 1**
+   ```sql
+   -- Sprawdzenie czy adresy e-mail mają poprawny format jeśli są obecne
+   SELECT primary_email
+   FROM {{ ref('customers') }}
+   WHERE primary_email IS NOT NULL AND primary_email NOT LIKE '%@%.%'
+   ```
+
+   **Test 2**
+   ```sql
+   -- Sprawdzenie czy klucze główne są unikatowe
+   SELECT sk_customer_id, COUNT(*) AS count
+   FROM {{ ref('dim_customer') }}
+   GROUP BY sk_customer_id
+   HAVING count > 1
+   ```
+
+   **Test 3**
+   ```sql
+   -- Sprawdzenie czy klucz główny nie jest wartoscią NULL'ową
+   SELECT sk_account_id
+   FROM {{ ref('dim_account') }}
+   WHERE sk_account_id IS NULL
+
+   ```
+
+   ![img.png](doc/figures/spark_sql_tests.png)
 
 11. In main.tf update
    ```
