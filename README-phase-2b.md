@@ -18,6 +18,8 @@ and subsititute "e2-standard-2" with "e2-standard-4".
 2. If needed request to increase cpu quotas (e.g. to 30 CPUs): 
 https://console.cloud.google.com/apis/api/compute.googleapis.com/quotas?project=tbd-2023z-9918
 
+![img.png](doc/figures/quota_request.png)
+
 3. Using tbd-tpc-di notebook perform dbt run with different number of executors, i.e., 1, 2, and 5, by changing:
 ```
  "spark.executor.instances": "2"
