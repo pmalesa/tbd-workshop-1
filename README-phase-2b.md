@@ -34,5 +34,19 @@ in profiles.yml.
 
 5. Analyze the performance and scalability of execution times of each model. Visualize and discucss the final results.
 
+Całkowity czas wykonania dla różnych wartości parametru *spark.executor.instances*:
 
+- 1: 116 min 21 s
+- 2: 67 min 25 s
+- 4: 74 min 10 s
+
+![img.png](doc/figures/Total_Time.png) 
+
+Zadanie zajęło najmniej czasu w przypadku wartości parametru *spark.executor.instances* = 2. Przy zmianie z 1 na 2 executorów, czas wykonania znacznie się skrócił o około 40%. Jednak gdy liczba executorów wzrosła z 2 do 4, czas wykonania nieznacznie wzrósł, co sugeruje, że dodatkowe executory nie były efektywnie wykorzystywane, prawdopodobnie z powodu rywalizacji o zasoby.
+
+Wykres poniżej przedstawia czas tworzenia kolejnych tabel w przypadku różnej liczby executorów. 
+
+![img.png](doc/figures/Execution_Time.png) 
+
+Dla tabel z dłuższymi czasami tworzenia (np. demo_silver.daily_market, demo_silver.trades_history), redukcja całkowitego czasu wykonania jest znacząca przy przejściu z 1 do 2 executorów. Jednak po zwiększeniu liczby executorów do 4 dla dużych tabel nie widać poprawy, co może sugerować, że osiągnięto optymalną wydajność przy 2 executorach. Dodanie większej liczby executorów po pewnym momencie nie zawsze powoduje zwiększenie wydajności. Warto monitorować zasoby, aby upewnić się, że dodanie większej liczby executorów rzeczywiście wykorzystuje dostępne zasoby.
    
